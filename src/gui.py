@@ -13,7 +13,7 @@ transposition = Transposition(MODE.decrypt)
 
 def hide_widgets():
     for widget in widgets:
-        widget.pack_forget()
+        widget.pack_forget() # remember to change to what ever style is being used... likely grid
 
 def concealment_cyphers():
     hide_widgets()
@@ -29,7 +29,6 @@ def transposition_cyphers():
     transposition_word_button.pack()
 
 
-menubar = menu.init(root, concealment_cyphers=concealment_cyphers, transposition_cyphers=transposition_cyphers)
 
 # concealment cypher buttons
 bacon_button = Button(root, text='bacon',command=lambda: update_label('bacon'))
@@ -41,7 +40,6 @@ reverse_button = Button(root, text='reverse', command=lambda: update_label('reve
 key_entry = Entry(root)
 transposition_number_button = Button(root, text='trans number', command=lambda: update_label('trans number'))
 transposition_word_button = Button(root, text='trans word', command=lambda: update_label('trans word'))
-
 
 #all the widgets
 widgets = [bacon_button, skip_button, ladder_button, reverse_button, key_entry, transposition_number_button, transposition_word_button]
@@ -56,7 +54,7 @@ def update_label(cypher):
     textbox.delete('1.0', END)
     message = ''
     if cypher == 'bacon':
-        message = concealment.bacon('text here pls')
+        message = concealment.bacon('wOMB aNy nazi next aUSchwItz BurEaucraCY ENDED!')
     elif cypher == 'skip':
         message =  'skip every 1, start at 1: ' + concealment.skip('text here pls',2,0) + '\n'
         message += 'skip every 2, start at 1: ' + concealment.skip('text here pls',3,0) + '\n'
@@ -86,5 +84,7 @@ def update_label(cypher):
     textbox.insert(END, message)
 
 hide_widgets()
+
+menubar = menu.init(root, concealment_cyphers=concealment_cyphers, transposition_cyphers=transposition_cyphers)
 root.config(menu=menubar)
 root.mainloop()

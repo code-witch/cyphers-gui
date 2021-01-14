@@ -13,7 +13,7 @@ def init(root,**kwargs):
 
     # mode menu items
     modemenu = Menu(menu, tearoff=0)
-    modemenu.add_radiobutton(label="Decryption") # , command=donothing)
+    modemenu.add_radiobutton(label="Decryption") # , command=donothing) # make default checked
     modemenu.add_radiobutton(label="Encryption") # , command=donothing)
     menu.add_cascade(label="Mode", menu=modemenu)
     

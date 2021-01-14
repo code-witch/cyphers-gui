@@ -17,6 +17,11 @@ class Cypher:
             raise Exception('Unknown Mode Exception: Please use one of the modes in the MODE class')
 
 class Concealment(Cypher):
+    # my cypher for kohler
+    # wOMB aNy nazi next aUSchwItz BurEaucraCY ENDED! 
+
+    # PRIVATE METHODS
+
     def __bacon_encrypt(self, message):
         pass
 
@@ -47,7 +52,6 @@ class Concealment(Cypher):
 
         # smoosh together
         message = ''.join(message)
-        # print(message)
         return message
 
     def __skip_encrypt(self, message, amount, start):
@@ -67,9 +71,7 @@ class Concealment(Cypher):
         for i in range(0,len(message)):
             message[i] = ' '.join(message[i])
         message = '\n'.join(message)
-        print(message)
         return message
-
 
     def __reverse_encrypt(self, message):
         return message[::-1]
@@ -77,9 +79,10 @@ class Concealment(Cypher):
     def __reverse_decrypt(self, message):
         return message[::-1]
 
+    # PUBLIC METHODS
 
     def bacon(self, message):
-        return self.mode_check(self.__bacon_encrypt, self.__bacon_decrypt, message)
+        return self.mode_check(self.__bacon_encrypt, self.__bacon_decrypt, clean_message(message))
 
     def skip(self, message, amount, start):
         return self.mode_check(self.__skip_encrypt, self.__skip_decrypt, message, amount, start)
@@ -92,45 +95,25 @@ class Concealment(Cypher):
 
 
 class Transposition(Cypher):
-    pass
 
-# cyphers 
-# def bacon(message):
-#     alphabet = "abcdefghiklmnopqrstuwxyz"
+    # PRIVATE METHODS
 
-#     # split message into groups of 5
-#     message = [message[i:i+5] for i in range(0, len(message), 5)]
+    def __trans_number_encrypt(self, message, key):
+        pass
 
-#     # convert letters into 1's and 0's
-#     for i in range(0,len(message)):
-#         for j in range(0, len(message[i])):
-#             message[i] = list(message[i])
-#             if message[i][j].isupper():
-#                 message[i][j] = '1'
-#             else: 
-#                 message[i][j] = '0'
-#         message[i] = ''.join(message[i])
+    def __trans_number_decrypt(self, message, key):
+        pass
 
-#         # convert binary to decimal
-#         message[i] = int(message[i], 2)
+    def __trans_word_encrypt(self, message, key):
+        pass
 
-#         # convert to ascii
-#         try:
-#             message[i] = alphabet[message[i]]
-#         except:
-#             message[i] = '_' # if the cypher is broken fill with blank
+    def __trans_word_decrypt(self, message, key):
+        pass
 
-#     # smoosh together
-#     message = ''.join(message)
-#     # print(message)
-#     return message
+    # PUBLIC METHODS
 
+    def trans_number(self, message, key):
+        return self.mode_check(self.__trans_number_encrypt, self.__trans_number_decrypt, message, key)
 
-# my cypher for kohler
-# wOMB aNy nazi next aUSchwItz BurEaucraCY ENDED! 
-
-def trans_number(message, key):
-    return message
-
-def trans_word(message, key):
-    return message
+    def trans_word(self, message, key):
+        return self.mode_check(self.__trans_word_encrypt, self.__trans_word_decrypt, message, key)
