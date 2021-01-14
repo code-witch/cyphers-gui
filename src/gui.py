@@ -1,11 +1,46 @@
 from tkinter import *
-import re 
 
 from cyphers import *
+import util
 
 # main window
 root = Tk()
 root.title('ez test')
+
+def hide_widgets():
+    for widget in widgets:
+        widget.pack_forget()
+
+def concealment_cyphers():
+    hide_widgets()
+    bacon_button.pack()
+    skip_button.pack()
+    ladder_button.pack()
+    reverse_button.pack()
+
+
+def transposition_cyphers():
+    hide_widgets()
+    key_entry.pack()
+    transposition_number_button.pack()
+    transposition_word_button.pack()
+
+# Menu bar
+menu = Menu(root)
+
+# cypher type items
+cyphermenu = Menu(menu, tearoff=0)
+cyphermenu.add_radiobutton(label="Concealment", command=concealment_cyphers)
+cyphermenu.add_radiobutton(label="Transposition", command=transposition_cyphers)
+cyphermenu.add_radiobutton(label="next cypher") # , command=donothing)
+menu.add_cascade(label="Cyphers", menu=cyphermenu)
+
+# mode menu items
+modemenu = Menu(menu, tearoff=0)
+modemenu.add_radiobutton(label="Decryption") # , command=donothing)
+modemenu.add_radiobutton(label="Encryption") # , command=donothing)
+menu.add_cascade(label="Mode", menu=modemenu)
+
 
 # concealment cypher buttons
 bacon_button = Button(root, text='bacon',command=lambda: update_label('bacon'))
@@ -18,17 +53,7 @@ key_entry = Entry(root)
 transposition_number_button = Button(root, text='trans number', command=lambda: update_label('trans number'))
 transposition_word_button = Button(root, text='trans word', command=lambda: update_label('trans word'))
 
-
-# placing buttons
-
-# bacon_button.pack()
-# skip_button.pack()
-# ladder_button.pack()
-# reverse_button.pack()
-
-key_entry.pack()
-transposition_number_button.pack()
-transposition_word_button.pack()
+widgets = [bacon_button, skip_button, ladder_button, reverse_button, key_entry, transposition_number_button, transposition_word_button]
 
 
 # label feedback
@@ -40,87 +65,36 @@ def update_label(cypher):
     textbox.delete('1.0', END)
     message = ''
     if cypher == 'bacon':
-        message = bacon(clean_message())
+        message = bacon(util.clean_message())
     elif cypher == 'skip':
-        message =  'skip every 1, start at 1: ' + skip(clean_message(),2,0) + '\n'
-        message += 'skip every 1, start at 2: ' + skip(clean_message(),2,1) + '\n'
-        message += 'skip every 2, start at 1: ' + skip(clean_message(),3,0) + '\n'
-        message += 'skip every 2, start at 2: ' + skip(clean_message(),3,1) + '\n'
-        message += 'skip every 2, start at 3: ' + skip(clean_message(),3,2) + '\n'
-        message += 'skip every 3, start at 1: ' + skip(clean_message(),4,0) + '\n'
-        message += 'skip every 3, start at 2: ' + skip(clean_message(),4,1) + '\n'
-        message += 'skip every 3, start at 3: ' + skip(clean_message(),4,2) + '\n'
-        message += 'skip every 3, start at 4: ' + skip(clean_message(),4,3) + '\n'
-        message += 'skip every 4, start at 1: ' + skip(clean_message(),5,0) + '\n'
-        message += 'skip every 4, start at 2: ' + skip(clean_message(),5,1) + '\n'
-        message += 'skip every 4, start at 3: ' + skip(clean_message(),5,2) + '\n'
-        message += 'skip every 4, start at 4: ' + skip(clean_message(),5,3) + '\n'
-        message += 'skip every 4, start at 5: ' + skip(clean_message(),5,4) + '\n'
+        message =  'skip every 1, start at 1: ' + skip(util.clean_message(),2,0) + '\n'
+        message += 'skip every 1, start at 2: ' + skip(util.clean_message(),2,1) + '\n'
+        message += 'skip every 2, start at 1: ' + skip(util.clean_message(),3,0) + '\n'
+        message += 'skip every 2, start at 2: ' + skip(util.clean_message(),3,1) + '\n'
+        message += 'skip every 2, start at 3: ' + skip(util.clean_message(),3,2) + '\n'
+        message += 'skip every 3, start at 1: ' + skip(util.clean_message(),4,0) + '\n'
+        message += 'skip every 3, start at 2: ' + skip(util.clean_message(),4,1) + '\n'
+        message += 'skip every 3, start at 3: ' + skip(util.clean_message(),4,2) + '\n'
+        message += 'skip every 3, start at 4: ' + skip(util.clean_message(),4,3) + '\n'
+        message += 'skip every 4, start at 1: ' + skip(util.clean_message(),5,0) + '\n'
+        message += 'skip every 4, start at 2: ' + skip(util.clean_message(),5,1) + '\n'
+        message += 'skip every 4, start at 3: ' + skip(util.clean_message(),5,2) + '\n'
+        message += 'skip every 4, start at 4: ' + skip(util.clean_message(),5,3) + '\n'
+        message += 'skip every 4, start at 5: ' + skip(util.clean_message(),5,4) + '\n'
 
     elif cypher == 'ladder':
         with open('data.txt', 'r') as f:
             message = ladder(f.read())
     elif cypher == 'reverse':
-        message = reverse(clean_message())
+        message = reverse(util.clean_message())
     elif cypher == 'trans number':
-        message = trans_number(clean_message(), key_entry.get())
+        message = trans_number(util.clean_message(), key_entry.get())
     elif cypher == 'trans word':
-        message = trans_word(clean_message(), key_entry.get())
+        message = trans_word(util.clean_message(), key_entry.get())
     else:
         message = 'No Cypher was Selected'
     textbox.insert(END, message)
 
-# removes everything but letters and numbers
-def clean_message():
-    message = ''
-    with open('data.txt', 'r') as f:
-        message = f.read()
-    return re.sub('[^\w]','', message)
-
-
-# cyphers 
-def bacon(message):
-    alphabet = "abcdefghiklmnopqrstuwxyz"
-
-    # split message into groups of 5
-    message = [message[i:i+5] for i in range(0, len(message), 5)]
-
-    # convert letters into 1's and 0's
-    for i in range(0,len(message)):
-        for j in range(0, len(message[i])):
-            message[i] = list(message[i])
-            if message[i][j].isupper():
-                message[i][j] = '1'
-            else: 
-                message[i][j] = '0'
-        message[i] = ''.join(message[i])
-
-        # convert binary to decimal
-        message[i] = int(message[i], 2)
-
-        # convert to ascii
-        try:
-            message[i] = alphabet[message[i]]
-        except:
-            message[i] = '_' # if the cypher is broken fill with blank
-
-    # smoosh together
-    message = ''.join(message)
-    # print(message)
-    return message
-
-def skip(message, amount, start):
-    return message[start::amount]
-
-def ladder(message):
-    message = re.sub('[^\w\s+]','', message)
-    message = re.sub(' ','\n', message)
-    return ' '.join(message)
-
-def reverse(message):
-    return message[::-1]
-
-# my cypher for kohler
-# wOMB aNy nazi next aUSchwItz BurEaucraCY ENDED! 
-
+hide_widgets()
+root.config(menu=menu)
 root.mainloop()
