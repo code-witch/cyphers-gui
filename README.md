@@ -16,4 +16,4 @@ soon to be changed
 
 ---
 ## Application Version
-1.4
+1.5
