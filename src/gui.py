@@ -36,16 +36,20 @@ skip_button = Button(root, text='skip',command=lambda: update_label('skip'))
 ladder_button = Button(root, text='ladder', command=lambda: update_label('ladder'))
 reverse_button = Button(root, text='reverse', command=lambda: update_label('reverse'))
 
-#transposition cyphers
+# transposition cyphers
 key_entry = Entry(root)
 transposition_number_button = Button(root, text='trans number', command=lambda: update_label('trans number'))
 transposition_word_button = Button(root, text='trans word', command=lambda: update_label('trans word'))
 
-#all the widgets
+# all the widgets
 widgets = [bacon_button, skip_button, ladder_button, reverse_button, key_entry, transposition_number_button, transposition_word_button]
 
 
-# label feedback
+# Message Entry
+code_entry = Entry(root)
+code_entry.pack()
+
+# Text feedback
 textbox = Text(root)
 textbox.pack()
 

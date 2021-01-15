@@ -17,7 +17,6 @@ class Cypher:
             raise Exception('Unknown Mode Exception: Please use one of the modes in the MODE class')
 
 class Concealment(Cypher):
-    # my cypher for kohler
     # wOMB aNy nazi next aUSchwItz BurEaucraCY ENDED! 
 
     # PRIVATE METHODS
@@ -95,6 +94,7 @@ class Concealment(Cypher):
 
 
 class Transposition(Cypher):
+    # I'm a precision instrument of speed and aerodynamics!
 
     # PRIVATE METHODS
 
