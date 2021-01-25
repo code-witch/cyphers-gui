@@ -8,7 +8,7 @@ def init(root,**kwargs):
     cyphermenu = Menu(menu, tearoff=0)
     cyphermenu.add_radiobutton(label="Concealment", command=kwargs['concealment_cyphers'])
     cyphermenu.add_radiobutton(label="Transposition", command=kwargs['transposition_cyphers'])
-    cyphermenu.add_radiobutton(label="next cypher") # , command=donothing)
+    cyphermenu.add_radiobutton(label="Substitution", command=kwargs['substitution_cyphers'])
     menu.add_cascade(label="Cyphers", menu=cyphermenu)
 
     # mode menu items

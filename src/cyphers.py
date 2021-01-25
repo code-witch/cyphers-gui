@@ -92,23 +92,29 @@ class Concealment(Cypher):
     def reverse(self, message):
         return self.mode_check(self.__reverse_encrypt, self.__reverse_decrypt, message)
 
-
 class Transposition(Cypher):
     # I'm a precision instrument of speed and aerodynamics!
-
+    # key = lightning 
+    # ANNAN SUEOP ITNAM OEDYC TSECI IMEDE SFAII RPRSR NODM
+    
     # PRIVATE METHODS
 
     def __trans_number_encrypt(self, message, key):
-        pass
+        print(message)
+        message_array = [message[i:i+key] for i in range(0, len(message), key)]
+        print(message)
+        return message
 
     def __trans_number_decrypt(self, message, key):
         pass
+
 
     def __trans_word_encrypt(self, message, key):
         pass
 
     def __trans_word_decrypt(self, message, key):
         pass
+
 
     # PUBLIC METHODS
 
@@ -117,3 +123,16 @@ class Transposition(Cypher):
 
     def trans_word(self, message, key):
         return self.mode_check(self.__trans_word_encrypt, self.__trans_word_decrypt, message, key)
+
+class Substitution(Cypher):
+
+    def __caeser_encrypt(self, message, key):
+        pass
+
+    def __caeser_decrypt(self, message, key):
+        pass
+    # alphabet shifted shifted = alphabet[key:] + alphabet[:key]
+    # print the shifted to show work
+
+    def caesar(self, message, key):
+        return self.mode_check(self.__caeser_encrypt, self.__caeser_decrypt, message, key)
