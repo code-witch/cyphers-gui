@@ -33,8 +33,18 @@ def substitution_cyphers():
     hide_widgets()
     key_entry.pack()
     substitution_caesar_button.pack()
+    substitution_affine_button.pack()
+    substitution_multiplicative_button.pack()
 
+def encryption_mode():
+    concealment.mode = MODE.encrypt
+    transposition.mode = MODE.encrypt
+    substitution.mode = MODE.encrypt
 
+def decryption_mode():
+    concealment.mode = MODE.decrypt
+    transposition.mode = MODE.decrypt
+    substitution.mode = MODE.decrypt
 
 # concealment cypher buttons
 bacon_button = Button(root, text='bacon',command=lambda: update_label('bacon'))
@@ -48,13 +58,15 @@ transposition_word_button = Button(root, text='trans word', command=lambda: upda
 
 # substitution cyphers
 substitution_caesar_button = Button(root, text='caesar', command=lambda: update_label('caesar'))
+substitution_multiplicative_button = Button(root, text='multiplicative', command=lambda: update_label('multiplicative'))
+substitution_affine_button = Button(root, text='affine', command=lambda: update_label('affine'))
 
 
 # Key entry
 key_entry = Entry(root)
 
 # all the widgets
-widgets = [bacon_button, skip_button, ladder_button, reverse_button, key_entry, transposition_number_button, transposition_word_button, substitution_caesar_button]
+widgets = [bacon_button, skip_button, ladder_button, reverse_button, key_entry, transposition_number_button, transposition_word_button, substitution_caesar_button, substitution_multiplicative_button, substitution_affine_button]
 
 
 # Message Entry
@@ -97,16 +109,17 @@ def update_label(cypher):
     elif cypher == 'trans word':
         message = transposition.trans_word(util.clean_message(code_entry.get()), key_entry.get())
     elif cypher == 'caesar':
-        try: 
-            message = substitution.caesar(util.clean_message(code_entry.get()), int(key_entry.get()))
-        except:
-            message = "Invalid Key"
+        message = substitution.caesar(util.clean_message(code_entry.get()), int(key_entry.get()))
+    elif cypher == 'multiplicative':
+        message = substitution.multiplicative(util.clean_message(code_entry.get()), int(key_entry.get()))
+    elif cypher == 'affine':
+        message = substitution.affine(util.clean_message(code_entry.get()), int(key_entry.get()))
     else:
         message = 'No Cypher was Selected'
     textbox.insert(END, message)
 
 hide_widgets()
 
-menubar = menu.init(root, concealment_cyphers=concealment_cyphers, transposition_cyphers=transposition_cyphers, substitution_cyphers=substitution_cyphers)
+menubar = menu.init(root, concealment_cyphers=concealment_cyphers, transposition_cyphers=transposition_cyphers, substitution_cyphers=substitution_cyphers, decryption_mode=decryption_mode, encryption_mode=encryption_mode)
 root.config(menu=menubar)
 root.mainloop()

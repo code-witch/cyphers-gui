@@ -125,14 +125,33 @@ class Transposition(Cypher):
         return self.mode_check(self.__trans_word_encrypt, self.__trans_word_decrypt, message, key)
 
 class Substitution(Cypher):
-
+    alphabet = 'abcdefghijklmnopqrstuvwxyz'
     def __caeser_encrypt(self, message, key):
         pass
 
     def __caeser_decrypt(self, message, key):
-        pass
-    # alphabet shifted shifted = alphabet[key:] + alphabet[:key]
-    # print the shifted to show work
+        key = 26-key
+        alphabet_shift = Substitution.alphabet[key:] + Substitution.alphabet[:key]
+        message = message.lower()
+        # print(alphabet_shift)
+        message = list(message)
+        for i in range(0, len(message)):
+            for j in range(0,len(Substitution.alphabet)):
+                # print('real: ',Substitution.alphabet[j])
+                # print('shift:', alphabet_shift[j])
+                # print('message.replace(Substitution.alphabet[j],alphabet_shift[j]):', message.replace(Substitution.alphabet[j],alphabet_shift[j]))
+                if message[i] == Substitution.alphabet[j]:
+                    message[i] = alphabet_shift[j]
+                    break
+                # print(message)
+        message = ''.join(message)
+        return alphabet_shift + '\n' + message
 
     def caesar(self, message, key):
         return self.mode_check(self.__caeser_encrypt, self.__caeser_decrypt, message, key)
+
+    def multiplicative(self, message, key):
+        return self.mode_check(self.__multiplicative_encrypt, self.__multiplicative_decrypt, message, key)
+
+    def affine(self, message, key):
+        return self.mode_check(self.__affine_encrypt, self.__affine_decrypt, message, key)
